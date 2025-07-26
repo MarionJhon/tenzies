@@ -8,18 +8,28 @@ function App() {
   const generateAllNewDice = () => {
     return Array.from({ length: 10 }, () => ({
       value: Math.ceil(Math.random() * 6),
-      isHeld: true,
+      isHeld: false,
       id: nanoid(),
     }));
   };
 
   const [allNewDice, setAllNewDice] = useState(generateAllNewDice());
-  const [dice, setDice] = useState(false)
 
-
+  const hold = (id) => {
+    setAllNewDice((prevDice) =>
+      prevDice.map((die) =>
+        die.id === id ? { ...die, isHeld: !die.isHeld } : die
+      )
+    );
+  };
 
   const dices = allNewDice.map((newDiceObj) => (
-    <Die key={newDiceObj.id} value={newDiceObj.value} isHeld={newDiceObj.isHeld} />
+    <Die
+      key={newDiceObj.id}
+      value={newDiceObj.value}
+      isHeld={newDiceObj.isHeld}
+      click={() => hold(newDiceObj.id)}
+    />
   ));
 
   //this function is to update the setAllNewDice state, it re-roll new dice
