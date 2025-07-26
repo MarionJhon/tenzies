@@ -1,15 +1,28 @@
-import { useState } from 'react'
-import '../App.css'
+import { useState } from "react";
+import Die from "./Die";
+import "../App.css";
 
 function App() {
 
+  const generateAllNewDice = () => {
+    return Array.from({ length: 10 }, () => Math.ceil(Math.random() * 6));
+  };
+
+  const [allNewDice, setAllNewDice] = useState(generateAllNewDice);
+
+  const dice = allNewDice.map(newDice => (
+    <Die value={newDice}/>
+  ))
+
   return (
     <>
-      <div>
-        <h1>Hello World</h1>
-      </div>
+      <main>
+        <div className="container">
+          {dice}
+        </div>
+      </main>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
