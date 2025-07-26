@@ -4,7 +4,7 @@ const Die = (props) => {
   }
   return (
     <>
-        <button style={style}>{props.value}</button>
+        <button onClick={props.click} style={style}>{props.value}</button>
     </>
   );
 };
