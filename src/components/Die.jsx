@@ -1,7 +1,10 @@
 const Die = (props) => {
+  const style = {
+    backgroundColor: props.isHeld === true ? "#59E391" : "#FFFFFF"
+  }
   return (
     <>
-        <button>{props.value}</button>
+        <button style={style}>{props.value}</button>
     </>
   );
 };
