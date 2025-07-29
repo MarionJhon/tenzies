@@ -34,12 +34,18 @@ function App() {
 
   //this function is to update the setAllNewDice state, it re-roll new dice
   const reRoll = () => {
-    setAllNewDice(generateAllNewDice);
+    setAllNewDice((prevRoll) =>
+      prevRoll.map((roll) =>
+        roll.isHeld ? roll : {...roll, value: Math.ceil(Math.random() * 6)}
+      )
+    );
   };
 
   return (
     <>
       <main>
+        <h1 className="title">Tenzies</h1>
+        <p className="instruction">Roll until all dice are the same. Click each die to freeze it at its current value between rolls</p>
         <div className="container">{dices}</div>
         <button className="roll-btn" onClick={reRoll}>
           Roll
