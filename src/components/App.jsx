@@ -1,4 +1,4 @@
-import { use, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
 import Die from "./Die";
@@ -6,10 +6,10 @@ import "../App.css";
 
 function App() {
   const [allNewDice, setAllNewDice] = useState(() => generateAllNewDice());
+  const buttonRef = useRef(null);
 
   //this function is to generate 10 new dice with a random number 1-6
   function generateAllNewDice() {
-    console.log("Generate another dice")
     return Array.from({ length: 10 }, () => ({
       value: Math.ceil(Math.random() * 6),
       isHeld: false,
@@ -50,15 +50,21 @@ function App() {
       : false;
 
   const restart = () => {
-    gameWon && setAllNewDice(generateAllNewDice())
-  }
+    gameWon && setAllNewDice(generateAllNewDice());
+  };
+
+  useEffect(() => {
+    gameWon ? buttonRef.current.focus() : null
+  }, [gameWon])
 
   return (
     <>
       <main>
         {gameWon && <Confetti />}
         <div aria-live="polite" className="sr-only">
-          {gameWon && <p>Congratulations! You won! Press "New Game" to start again.</p>}
+          {gameWon && (
+            <p>Congratulations! You won! Press "New Game" to start again.</p>
+          )}
         </div>
         <h1 className="title">Tenzies</h1>
         <p className="instruction">
@@ -66,7 +72,11 @@ function App() {
           current value between rolls
         </p>
         <div className="container">{dices}</div>
-        <button className="roll-btn" onClick={gameWon ? restart : reRoll}>
+        <button
+          ref={buttonRef}
+          className="roll-btn"
+          onClick={gameWon ? restart : reRoll}
+        >
           {gameWon ? "New Game" : "Roll"}
         </button>
       </main>
